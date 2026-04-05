@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block signin %}
+<div id="signin-button-div">
+  <a href=/login><button class="nav-button btn btn-outline-primary">Login</button></a>
+</div>
+{% endblock signin %}
+
+{% block main %}
+<div id="form-outer-div">
+  <div id="form-div">
+    <form id="reg-form" enctype="multipart/form-data" method="POST">
+
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" name="name" class="form-control" id="name">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label radio-column">Level</label>
+
+        <input type="radio" class="form-check-input" id="foundation" name="level" value="foundation">
+        <label for="foundation">Foundation</label>
+
+        <input type="radio" class="form-check-input" id="diploma" name="level" value="diploma">
+        <label for="diploma">Diploma</label>
+
+        <input type="radio" class="form-check-input" id="degree" name="level" value="degree">
+        <label for="degree">Degree</label>
+
+        <input type="radio" class="form-check-input" id="NA" name="level" value="NA">
+        <label for="NA">NA</label>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" name="email" class="form-control" id="email">
+      </div>
+
+      <div class="mb-3">
+        <label for="pass" class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" id="pass">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label radio-column">Register as</label>
+
+        <input type="radio" class="form-check-input" id="rolestudent" name="role" value="student">
+        <label for="rolestudent">Student</label>
+
+        <input type="radio" class="form-check-input" id="rolecompany" name="role" value="company">
+        <label for="rolecompany">Company</label>
+      </div>
+
+      <div class="mb-3">
+        <label for="resume" class="form-label">Resume</label>
+        <input type="file" name="resume" class="form-control" id="resume">
+      </div>
+
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="declaration" name="declaration" value="True">
+        <label class="form-check-label" for="declaration">I hereby declare that the information provided above is
+          correct to the best of my knowledge.</label>
+          <p class="error">{{error}}</p>
+      </div>
+
+      <button id="submit-button" type="submit" class="btn nav-button">Register</button>
+    </form>
+  </div>
+</div>
+{% endblock main %}

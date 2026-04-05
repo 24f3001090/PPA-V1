@@ -1,0 +1,179 @@
+*
+{
+    margin: 0px;
+}
+/* Header */
+#navbar
+{
+    background-color: orange;
+}
+#logo-img
+{
+    height: 50px;
+    width: 150px;
+}
+.nav-button
+{
+    border-color: darkblue;
+    color: darkblue;
+}
+.nav-button:hover
+{
+    border-color: darkblue;
+    background-color: darkblue;
+    color: white;
+}
+#signin-button-div
+{
+    position: absolute;
+    right: 40px;
+    top: 6px;
+}
+/* Main */
+#boy
+{
+    height: 60%;
+    position: absolute;
+    left: 3.5%;
+    top: 18%;
+}
+#quote
+{
+    height: 25%;
+    width: 33%;
+    position: absolute;
+    top: 35%;
+    left: 23%;
+    border: 4px solid darkblue;
+    color: darkblue;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: quotebox 1s linear 0s infinite normal;
+}
+@keyframes quotebox
+{
+    0%{
+        border-color: #03045e;
+    }
+    25%{
+        border-color: #023e8a;
+    }
+    50%{
+        border-color: #0077b6;
+    }
+    75%{
+        border-color: #0096c7;
+    }
+    100%{
+        border-color: #00b4d8;
+    }
+}
+#place-data-table
+{ 
+    border: 2px solid orange;
+    height: 60%;
+    width: 35%;
+    position: absolute;
+    right: 4%;
+    top: 22%;
+}
+#form-div
+{
+    width: 45%;
+}
+#form-outer-div
+{
+    height: 93.15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#reg-form
+{
+    padding: 5%;
+    border: 6px double orange;
+    border-radius: 5%;
+}
+#login-form
+{
+    padding: 5%;
+    border: 6px solid orange;
+    border-radius: 2%;
+}
+.login-btn
+{
+    height: 50px;
+    width: 100px;
+    font-size: 1.2rem;
+}
+.form-label
+{
+    font-weight: 600;
+}
+.radio-column
+{
+    margin-right: 4%;
+}
+#submit-button
+{
+    margin-left: 40%;
+}
+#submit-button:hover
+{
+    background-color: orange;
+    border-color: orange;
+    color:white;
+}
+.error
+{
+    color: red;
+}
+/* Dashboards */
+.dashboard-panel
+{
+    height: 48px;
+    background-color: rgb(236, 200, 200);
+    display: flex;
+    justify-content: space-between;
+}
+#search-div-admin
+{
+    width: 30%;
+    display:flex;
+}
+#search-input-admin
+{
+    border-color: darkblue;
+    width: 80%;
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 0%;
+}
+#search-btn-admin
+{
+    border-left: none;
+    border-top-left-radius: 0%;
+    border-bottom-left-radius: 0%;
+    
+}
+.section
+{
+    height: 200px;
+    background-color: orange;
+}
+.section-content
+{
+    background-color: white;
+    height: 75%;
+    margin-left: 2px;
+    margin-right: 2px;
+    border: 2px solid blue;
+}
+.panel-button
+{
+    background-color: greenyellow;
+    font-weight: 500;
+}
