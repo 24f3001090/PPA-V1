@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% block main %}
 <div class="dashboard-panel">
-    <h2>Welcome, Amazon</h2>
-    <button class="btn btn-outline-primary nav-button panel-button" type="button">Create Drive</button>
+    <h2>Welcome, {{company.name}}</h2>
+    <a href="{{ url_for("drive", com_id = company.c_id) }}"><button class="btn btn-outline-primary nav-button panel-button" type="button">Create Drive</button></a>
 </div>
+
 {% endblock main%}

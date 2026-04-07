@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block main %}
+<div>
+    <h3>Drive #{{id}}</h3>
+    <p>Role: {{role}}</p>
+    <p>Package: {{package}}</p>
+    <p>Experience: {{experience}}</p>
+    <p>Required Skills:</p>
+    {% for skill in skills %}
+    <p>{{skill}}</p>
+    {% endfor %}
+    <form method="POST">
+        <label for="skill-adder" class="form-label">Add new skill:</label>
+        <div id="skill-adder-div">
+            <input type="text" id="skill-adder" name="skill" class="form-control">
+            <button type="submit" class="btn nav-button">Add skill</button>
+        </div>
+    </form>
+</div>
+{% endblock main%}

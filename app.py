@@ -1,6 +1,6 @@
 import os
-from flask import Flask, render_template, request, redirect, session
-from dbmodel import db, Student as st, Company as com
+from flask import Flask, render_template, request, redirect, session, url_for
+from dbmodel import db, Student as st, Company as com, Drive as dr, Skill as sk, Application as apl
 
 app = Flask(__name__)
 
@@ -16,6 +16,67 @@ db.init_app(app)
 with app.app_context():
     amazon = com.query.filter_by(name = 'Amazon')
     db.create_all()
+
+#Skills
+skills = [
+    # Core Programming
+    'Python', 'Java', 'C', 'C++', 'JavaScript',
+
+    # Web Development
+    'HTML', 'CSS', 'Bootstrap', 'Tailwind CSS',
+    'Flask', 'Django', 'FastAPI', 'Spring', 'Spring Boot',
+    'REST API Development',
+
+    # Databases
+    'SQL', 'MySQL', 'PostgreSQL', 'SQLite', 'MongoDB',
+
+    # Tools & Technologies
+    'Git', 'GitHub', 'VS Code', 'Linux', 'Docker',
+
+    # Data Science / AI (your branch 👀)
+    'NumPy', 'Pandas', 'Matplotlib', 'Seaborn',
+    'Machine Learning', 'Deep Learning', 'TensorFlow', 'PyTorch',
+    'Data Analysis', 'Data Visualization',
+
+    # Computer Science Fundamentals
+    'Data Structures', 'Algorithms', 'OOP',
+    'Operating Systems', 'Computer Networks', 'DBMS',
+
+    # Software Engineering Practices
+    'Debugging', 'Testing', 'Version Control',
+    'API Integration', 'System Design (Basics)',
+
+    # Other Engineering Skills
+    'Problem Solving', 'Analytical Thinking',
+    'Mathematics', 'Statistics',
+
+    # Soft Skills
+    'Communication', 'Leadership', 'Management',
+    'Teamwork', 'Time Management', 'Adaptability'
+
+    # Mechanical
+    'AutoCAD', 'SolidWorks', 'CATIA',
+    'ANSYS', 'Finite Element Analysis (FEA)',
+    'Thermodynamics', 'Fluid Mechanics',
+    'Heat Transfer', 'Machine Design',
+    'CNC Programming', 'Manufacturing Processes',
+    'Robotics', '3D Printing'
+
+    # Civil
+    'AutoCAD Civil', 'STAAD Pro', 'ETABS',
+    'Structural Analysis', 'Geotechnical Engineering',
+    'Surveying', 'Construction Management',
+    'Soil Mechanics', 'Concrete Technology',
+    'Transportation Engineering', 'Environmental Engineering'
+
+    # Electrical
+    'MATLAB', 'Simulink',
+    'Circuit Design', 'Power Systems',
+    'Control Systems', 'Signal Processing',
+    'PLC Programming', 'SCADA',
+    'Embedded Systems', 'Microcontrollers (Arduino, ESP32)',
+    'Power Electronics', 'Electrical Machines'
+]
 
 #Last year highest placement stats
 place_data = [{"sno":1,"name":"Bipin Tiwari", "company":"Google", "package":"45LPA"},
@@ -91,14 +152,20 @@ def login_page():
         checkStudent = st.query.filter_by(email=email).first()
         if checkStudent:
             if checkStudent.password == password:
-                return render_template("userdashboard.html", name=checkStudent.name)
+                session['user'] = 'student'
+                session['student_id'] = checkStudent.s_id
+                s_id = checkStudent.s_id
+                return redirect(url_for("student", id = s_id))
             else:
                 return render_template("loginpage.html")
         #Is it a company?
         checkCompany = com.query.filter_by(email=email).first()
         if checkCompany:
             if checkCompany.status == 'approved' and checkCompany.password == password:
-                return render_template("comdashboard.html", name=checkCompany.name)
+                session['user'] = 'company'
+                session['company_id'] = checkCompany.c_id
+                c_id = checkCompany.c_id
+                return redirect(url_for("company", id = c_id))
             else:
                 return render_template("loginpage.html", error = "Either company not registered or wrong password.")
             
@@ -112,16 +179,75 @@ def login_page():
     else:
         return render_template("loginpage.html")
 
-@app.route("/administrator")
+@app.route("/administrator", methods = ['GET', 'POST'])
 def admin():
     if session.get('user') != 'admin':
         return redirect("/login")
+    if request.method == 'POST':
+        approval = request.form.get('approval')
+        com_id = request.form.get('com_id')
+
+        company = com.query.get(com_id)
+        if company:
+            if approval == 'yes':
+                company.status = 'approved'
+        else:
+            company.status = 'rejected'
+        db.session.commit()
+
     pending_reg = com.query.filter_by(status = 'pending')
     return render_template("admindashboard.html", pending_reg = pending_reg)
 
-@app.route("/company")
-def company():
-    return render_template("comdashboard.html")
+@app.route("/company/<int:id>")
+def company(id):
+    if session.get('user') != 'company':
+        return redirect("/login")
+    if session.get('company_id') != id:
+        return "Unauthorized access"
+    company = com.query.get(id)
+    return render_template("comdashboard.html", company = company)
+
+@app.route("/company/drive/<int:com_id>", methods=['GET', 'POST'])
+def drive(com_id):
+    if request.method == 'POST':
+        role = request.form.get('role')
+        package = request.form.get('package')
+        experience = request.form.get('experience')
+
+        if role and package and experience:
+            drive = dr(role = role, package = package, experience = experience, company_id = com_id)
+            db.session.add(drive)
+            db.session.commit()
+            id = drive.d_id
+            return redirect(url_for("edit", id = id))
+        else:
+            return render_template("drive.html", error = "All fields are mandatory.")
+    else:
+        return render_template("drive.html")
+
+@app.route("/company/drive/edit/<int:id>", methods = ['GET', 'POST'])
+def edit(id):
+    drive = dr.query.get(id)
+    if request.method == 'POST':
+        skill = request.form.get('skill')
+        if skill:
+            new_skill = sk(name = skill, drive_id = id)
+            db.session.add(new_skill)
+            db.session.commit()
+            return redirect(url_for("edit", id = id))
+        else:
+            return redirect(url_for("edit", id = id))
+        
+    return render_template("driveupdate.html", id = id, role = drive.role, package = drive.package, experience = drive.experience, skills = drive.skills)
+
+@app.route("/student/<int:id>")
+def student(id):
+    if session.get('user') != 'student':
+        return redirect("/login")
+    if session.get('student_id') != id:
+        return "Unauthorized access"
+    student = st.query.get(id)
+    return render_template("stdashboard.html", student = student)
 
 if __name__ == "__main__":
     app.run(debug=True)

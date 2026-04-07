@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
 {% block main %}
 <div class="dashboard-panel">
-    <h2 >Good to see you! Admin</h2>
+    <h2>Good to see you! Admin</h2>
     <div id="search-div-admin">
         <input id="search-input-admin" type="text" class="form-control" placeholder="Search">
-       <button id="search-btn-admin" class="btn btn-outline-primary nav-button panel-button" type="button">Search</button>
+        <button id="search-btn-admin" class="btn btn-outline-primary nav-button panel-button"
+            type="button">Search</button>
     </div>
 </div>
 <!-- Sections -->
@@ -17,7 +18,15 @@
     <h3>Pending registrations</h3>
     <div class="section-content">
         {% for reg in pending_reg %}
-        <div>{{reg}}</div>
+        <form method="POST">
+            <div class="section-list"><h4>{{reg}}</h4>
+                <div class="multiple-button-div">
+                    <input type="hidden" name="com_id" value="{{reg.c_id}}">
+                    <button class="btn nav-button crud-buttons" type="submit" name="approval" value="yes">Approve</button>
+                    <button class="btn nav-button crud-buttons" type="submit" name="approval" value="no">Reject</button>
+                </div>
+            </div>
+        </form>
         {% endfor %}
     </div>
 </div>

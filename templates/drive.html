@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block main %}
+<div id="form-outer-div">
+  <div id="form-div">
+    <form id="drive-form" method="POST">
+
+      <div class="mb-3">
+        <label for="role" class="form-label">Role</label>
+        <input type="text" name="role" class="form-control" id="role">
+      </div>
+
+      <div class="mb-3">
+        <label for="package" class="form-label">Package</label>
+        <input type="text" name="package" class="form-control" id="package">
+      </div>
+
+      <div class="mb-3">
+        <label for="experience" class="form-label">Experience</label>
+        <input type="text" name="experience" class="form-control" id="experience">
+      </div>
+
+      <button id="submit-button" type="submit" class="btn nav-button">Register</button>
+    </form>
+  </div>
+</div>
+{% endblock main %}
