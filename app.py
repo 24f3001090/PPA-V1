@@ -256,6 +256,17 @@ def view_st_application(app_id):
 
     return render_template("comapplicationview.html", j_app = j_app)
 
+@app.route("/student/applications/<int:st_id>")
+def st_applications(st_id):
+    student = st.query.get(st_id)
+    j_apps = student.applications
+    return render_template("stapplications.html", j_apps = j_apps)
+
+@app.route("/student/applications/track/<int:app_id>")
+def track(app_id):
+    j_app = apl.query.get(app_id)
+    return render_template("track.html", j_app = j_app)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

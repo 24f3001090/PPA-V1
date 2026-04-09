@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block main %}
+<h2 style="text-align:center;">Application Status Tracker</h2>
+<div id="tracker-page">
+    <div class="progress-container">
+
+        <div
+            class="step {% if j_app.status in ['applied','shortlisted','interview scheduled','selected'] %}active{% endif %}">
+            <div class="circle">1</div>
+            <div class="label">Applied</div>
+        </div>
+
+        <div class="step {% if j_app.status in ['shortlisted','interview scheduled','selected'] %}active{% endif %}">
+            <div class="circle">2</div>
+            <div class="label">Shortlisted</div>
+        </div>
+
+        <div class="step {% if j_app.status in ['interview scheduled','selected'] %}active{% endif %}">
+            <div class="circle">3</div>
+            <div class="label">Interview</div>
+            {% if j_app.int_date %}
+            <div class="blue">Interview Date: {{ j_app.int_date }}</div>
+            {% endif %}
+        </div>
+
+        <div class="step {% if j_app.status == 'selected' %}active{% elif j_app.status == 'rejected' %}rejected{% endif %}">
+            <div class="circle">4</div>
+            <div class="label">
+                {% if j_app.status == 'rejected' %}
+                Rejected
+                {% else %}
+                Selected
+                {% endif %}
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+{% endblock main %}

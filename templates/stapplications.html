@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block main %}
+<div>
+    {% for j_app in j_apps %}
+    <div class="section-list">
+        <h4>Name: {{j_app.drive.role}} {{j_app.drive.company.name}} </h4>
+        <div class="multiple-button-div">
+            <a class="btn nav-button crud-buttons" href=" {{ url_for("track", app_id = j_app.a_id) }} ">Track status</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock main %}
