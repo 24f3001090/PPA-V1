@@ -1,10 +1,11 @@
 import os
 from flask import Flask, render_template, request, redirect, session, url_for
 from dbmodel import db, Student as st, Company as com, Drive as dr, Skill as sk, Application as apl
+from datetime import datetime
 
 app = Flask(__name__)
 
-app.secret_key = "your_secret_key_here"
+app.secret_key = "bipin"
 
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -14,69 +15,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 db.init_app(app)
 
 with app.app_context():
-    amazon = com.query.filter_by(name = 'Amazon')
     db.create_all()
 
-#Skills
-skills = [
-    # Core Programming
-    'Python', 'Java', 'C', 'C++', 'JavaScript',
 
-    # Web Development
-    'HTML', 'CSS', 'Bootstrap', 'Tailwind CSS',
-    'Flask', 'Django', 'FastAPI', 'Spring', 'Spring Boot',
-    'REST API Development',
-
-    # Databases
-    'SQL', 'MySQL', 'PostgreSQL', 'SQLite', 'MongoDB',
-
-    # Tools & Technologies
-    'Git', 'GitHub', 'VS Code', 'Linux', 'Docker',
-
-    # Data Science / AI (your branch 👀)
-    'NumPy', 'Pandas', 'Matplotlib', 'Seaborn',
-    'Machine Learning', 'Deep Learning', 'TensorFlow', 'PyTorch',
-    'Data Analysis', 'Data Visualization',
-
-    # Computer Science Fundamentals
-    'Data Structures', 'Algorithms', 'OOP',
-    'Operating Systems', 'Computer Networks', 'DBMS',
-
-    # Software Engineering Practices
-    'Debugging', 'Testing', 'Version Control',
-    'API Integration', 'System Design (Basics)',
-
-    # Other Engineering Skills
-    'Problem Solving', 'Analytical Thinking',
-    'Mathematics', 'Statistics',
-
-    # Soft Skills
-    'Communication', 'Leadership', 'Management',
-    'Teamwork', 'Time Management', 'Adaptability'
-
-    # Mechanical
-    'AutoCAD', 'SolidWorks', 'CATIA',
-    'ANSYS', 'Finite Element Analysis (FEA)',
-    'Thermodynamics', 'Fluid Mechanics',
-    'Heat Transfer', 'Machine Design',
-    'CNC Programming', 'Manufacturing Processes',
-    'Robotics', '3D Printing'
-
-    # Civil
-    'AutoCAD Civil', 'STAAD Pro', 'ETABS',
-    'Structural Analysis', 'Geotechnical Engineering',
-    'Surveying', 'Construction Management',
-    'Soil Mechanics', 'Concrete Technology',
-    'Transportation Engineering', 'Environmental Engineering'
-
-    # Electrical
-    'MATLAB', 'Simulink',
-    'Circuit Design', 'Power Systems',
-    'Control Systems', 'Signal Processing',
-    'PLC Programming', 'SCADA',
-    'Embedded Systems', 'Microcontrollers (Arduino, ESP32)',
-    'Power Electronics', 'Electrical Machines'
-]
 
 #Last year highest placement stats
 place_data = [{"sno":1,"name":"Bipin Tiwari", "company":"Google", "package":"45LPA"},
@@ -103,6 +44,7 @@ def register_page():
         level = request.form.get('level')
         role = request.form.get('role')
         file = request.files.get('resume') 
+        cgpa = request.form.get('cgpa')
 
 
         if not request.form.get('declaration'):
@@ -114,15 +56,14 @@ def register_page():
             if checkStudent:
                 return render_template("registrationpage.html", error = 'Email already registered')
             else:
-                if name and email and password and level and role and file and file.filename != '':
+                if name and email and password and level and cgpa and role and file and file.filename != '':
                     filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
                     file.save(filepath)
-                    student= st(name=name, password=password, email=email, level=level, resume=filepath)
+                    student= st(name=name, password=password, email=email, level=level, resume=file.filename, cgpa = cgpa)
                     db.session.add(student)
                     db.session.commit()
                     return redirect("/login")
                 else:
-                    print(name, email, password, level, role, file)
                     return render_template("registrationpage.html")
             
         # Is it a Company?    
@@ -207,6 +148,12 @@ def company(id):
     company = com.query.get(id)
     return render_template("comdashboard.html", company = company)
 
+@app.route("/company/all-drives/<int:com_id>")
+def com_drives(com_id):
+    company = com.query.get(com_id)
+    drives = company.drives
+    return render_template("comdrives.html", drives = drives)
+
 @app.route("/company/drive/<int:com_id>", methods=['GET', 'POST'])
 def drive(com_id):
     if request.method == 'POST':
@@ -215,30 +162,35 @@ def drive(com_id):
         experience = request.form.get('experience')
 
         if role and package and experience:
-            drive = dr(role = role, package = package, experience = experience, company_id = com_id)
+            drive = dr(role = role, package = package, experience = experience, status = 'active', company_id = com_id)
             db.session.add(drive)
             db.session.commit()
             id = drive.d_id
             return redirect(url_for("edit", id = id))
         else:
-            return render_template("drive.html", error = "All fields are mandatory.")
+            return render_template("createdrive.html", error = "All fields are mandatory.")
     else:
-        return render_template("drive.html")
+        return render_template("createdrive.html")
 
 @app.route("/company/drive/edit/<int:id>", methods = ['GET', 'POST'])
 def edit(id):
     drive = dr.query.get(id)
     if request.method == 'POST':
         skill = request.form.get('skill')
+        status = request.form.get('status')
+        if status:
+            if status == 'closed':
+                drive.status = 'closed'
+            else:
+                drive.status = 'active'
         if skill:
             new_skill = sk(name = skill, drive_id = id)
             db.session.add(new_skill)
-            db.session.commit()
-            return redirect(url_for("edit", id = id))
-        else:
-            return redirect(url_for("edit", id = id))
+
+        db.session.commit()
+        return redirect(url_for("edit", id = id))
         
-    return render_template("driveupdate.html", id = id, role = drive.role, package = drive.package, experience = drive.experience, skills = drive.skills)
+    return render_template("driveupdate.html", drive = drive)
 
 @app.route("/student/<int:id>")
 def student(id):
@@ -248,6 +200,62 @@ def student(id):
         return "Unauthorized access"
     student = st.query.get(id)
     return render_template("stdashboard.html", student = student)
+
+@app.route("/student/all-drives/<int:st_id>")
+def st_drives(st_id):
+    drives = dr.query.filter_by(status = 'active')
+    return render_template("stdrives.html", drives = drives, st_id = st_id)
+
+@app.route("/student/apply/<int:st_id>/<int:drive_id>", methods=['GET', 'POST'])
+def apply(st_id, drive_id):
+    drive = dr.query.get(drive_id)
+    existing_application = apl.query.filter_by(student_id=st_id, drive_id=drive_id).first()
+    if request.method == 'POST':
+        declaration = request.form.get('declaration')
+        apply = request.form.get('apply')
+        if declaration and apply:
+            application = apl(status = 'applied', student_id = st_id, drive_id = drive_id)
+            db.session.add(application)
+            db.session.commit()
+            return redirect(url_for("apply", st_id = st_id, drive_id = drive_id))
+    return render_template("apply.html", drive = drive, applied_already = existing_application)
+
+@app.route("/company/applications/<int:com_id>")
+def applications(com_id):
+    company = com.query.get(com_id)
+    drives = company.drives
+    j_apps = []
+    for drive in drives:
+        j_apps.extend(drive.applications)
+    return render_template("comapplications.html", j_apps = j_apps)
+
+@app.route("/company/applications/view/<int:app_id>", methods = ['GET', 'POST'])
+def view_st_application(app_id):
+    j_app = apl.query.get(app_id)
+    if request.method == 'POST':
+        approval = request.form.get('approval')
+        sch_date = request.form.get('sch_date')
+        interview = request.form.get('interview')
+        select = request.form.get('select')
+
+        if approval:
+            if approval == 'yes':
+                j_app.status = 'shortlisted'
+            else:
+                j_app.status == 'rejected'
+        
+        if sch_date and interview:
+                j_app.status = 'interview scheduled'
+                j_app.int_date = datetime.strptime(sch_date, "%Y-%m-%d").date()
+
+        if select:
+            j_app.status = 'selected'
+
+        db.session.commit()
+        return redirect (url_for('view_st_application', app_id = app_id))
+
+    return render_template("comapplicationview.html", j_app = j_app)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

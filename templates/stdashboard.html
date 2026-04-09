@@ -1,4 +1,11 @@
 {% extends "layout.html" %}
 {% block main %}
+<div class="dashboard-panel">
     <h2>Hello, {{student.name}}</h2>
+</div>
+
+<div class="page">
+    <a class="box-anchor" href=" {{ url_for("st_drives", st_id = student.s_id) }} ">Running Drives</a>
+    <a class=" box-anchor" href="">My Applications</a>
+</div>
 {% endblock main%}

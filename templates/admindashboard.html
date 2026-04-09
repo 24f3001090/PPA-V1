@@ -20,7 +20,7 @@
         {% for reg in pending_reg %}
         <form method="POST">
             <div class="section-list"><h4>{{reg}}</h4>
-                <div class="multiple-button-div">
+                <div>
                     <input type="hidden" name="com_id" value="{{reg.c_id}}">
                     <button class="btn nav-button crud-buttons" type="submit" name="approval" value="yes">Approve</button>
                     <button class="btn nav-button crud-buttons" type="submit" name="approval" value="no">Reject</button>

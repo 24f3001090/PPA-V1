@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block main %}
+<div>
+    <h3>Application #{{j_app.a_id}}</h3>
+    <h4 class="section-list borderless">Name: {{j_app.applicant.name}}</h4>
+    <h4 class="section-list borderless">Level: {{j_app.applicant.level}}</h4>
+    <h4 class="section-list borderless">Email: {{j_app.applicant.email}}</h4>
+    <div class="section-list borderless">
+        <h4>Resume:</h4>
+        <a class="btn nav-button crud-buttons" href="{{url_for('static', filename = 'uploads/' + j_app.applicant.resume)}}"> View</a>
+    </div>
+    
+    {% if j_app.status == 'applied' %}
+    <form method="POST">
+        <div class="centered">
+            <button type="submit" class="btn nav-button crud-buttons" name="approval" value="yes">Approve</button>
+            <button type="submit" class="btn nav-button crud-buttons" name="approval" value="no">Reject</button>
+        </div>
+    </form>
+    {% elif j_app.status == 'shortlisted' %}
+    <form method="POST">
+        <div class="simple-input-div">
+            <input type="date" class="form-control simple-input" name="sch_date">
+            <button type="submit" class="btn nav-button crud-buttons" name="interview" value="yes">Schedule Interview</button>
+        </div>
+    </form>
+    {% elif j_app.status == 'interview scheduled' %}
+    <form method="POST" class="centered">
+            <button type="submit" class="btn nav-button" name="select" value="yes">Select Candidate</button>
+    </form>
+    {% elif j_app.status == 'selected' %}
+    <div class="green"><h3>Selected</h3></div>
+    {% else %}
+    <div class="error"><h3>Rejected</h3></div>
+    {% endif %}
+{% endblock main %}

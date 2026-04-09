@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime, timezone
 
 db=SQLAlchemy()
 
@@ -16,6 +17,9 @@ class Application(db.Model):
     a_id = db.Column(db.Integer(), primary_key = True, unique = True, autoincrement = True)
     def application_id(self):
         return f"D{self.a_id}"
+    status = db.Column(db.String(100), nullable = False)
+    app_date = db.Column(db.DateTime, default = lambda: datetime.now(timezone.utc))
+    int_date = db.Column(db.Date)
     student_id = db.Column(db.Integer, db.ForeignKey('student.s_id'), nullable=False)
     drive_id = db.Column(db.Integer, db.ForeignKey('drive.d_id'), nullable=False)
 
@@ -30,6 +34,7 @@ class Drive(db.Model):
     role = db.Column(db.String(100), nullable = False)
     package = db.Column(db.String(100), nullable = False)
     experience =  db.Column(db.String(100), nullable = False)
+    status = db.Column(db.String(100), nullable = False)
     company_id = db.Column(db.Integer, db.ForeignKey('company.c_id'), nullable=False)
     skills = db.relationship('Skill', backref='drive', lazy = True)
     applications = db.relationship('Application', backref = 'drive', lazy = True)
@@ -47,8 +52,9 @@ class Student(db.Model):
     name = db.Column(db.String(200), nullable = False)
     password = db.Column(db.String(20), nullable = False)
     level = db.Column(db.String(10), nullable = False)
+    cgpa = db.Column(db.String(10), nullable = False)
     blacklisted = db.Column(db.Boolean, default=False)
-    application = db.relationship('Application', backref = 'applicant', lazy = True)
+    applications = db.relationship('Application', backref = 'applicant', lazy = True)
     resume = db.Column(db.String(200), nullable = False)
 
     def __repr__(self):

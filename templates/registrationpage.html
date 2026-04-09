@@ -56,6 +56,11 @@
         <input type="file" name="resume" class="form-control" id="resume">
       </div>
 
+      <div class="mb-3">
+        <label for="cgpa" class="form-label">CGPA</label>
+        <input type="number" step="any" name="cgpa" class="form-control" id="cgpa">
+      </div>
+
       <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="declaration" name="declaration" value="True">
         <label class="form-check-label" for="declaration">I hereby declare that the information provided above is
@@ -63,7 +68,7 @@
           <p class="error">{{error}}</p>
       </div>
 
-      <button id="submit-button" type="submit" class="btn nav-button">Register</button>
+      <button type="submit" class="btn nav-button submit-button">Register</button>
     </form>
   </div>
 </div>

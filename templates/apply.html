@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block main %}
+<div>
+    <h3>Drive #{{drive.d_id}}</h3>
+    <h4 class="section-list borderless">Role: {{drive.role}}</h4>
+    <h4 class="section-list borderless">Package: {{drive.package}}</h4>
+    <h4 class="section-list borderless">Experience: {{drive.experience}}</h4>
+    <h4 class="section-list borderless">Required Skills:</h4>
+    {% for skill in drive.skills %}
+    <h5 class="section-list borderless">{{skill}}</h5>
+    {% endfor %}
+    {% if not applied_already %}
+    <form method="POST">
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="declaration" name="declaration" value="True">
+            <label class="form-check-label" for="declaration">By applying, I agree to share my profile info and
+                resume.</label>
+        </div>
+
+        <button type="submit" class="btn nav-button submit-button" name="apply" value="yes">Apply</button>
+    </form>
+    {% else %}
+    <div class="green"><h3>Applied</h3></div>
+    {% endif %}
+    {% endblock main %}

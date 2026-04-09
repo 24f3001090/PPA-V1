@@ -1,18 +1,29 @@
 {% extends "layout.html" %}
 {% block main %}
 <div>
-    <h3>Drive #{{id}}</h3>
-    <p>Role: {{role}}</p>
-    <p>Package: {{package}}</p>
-    <p>Experience: {{experience}}</p>
-    <p>Required Skills:</p>
-    {% for skill in skills %}
-    <p>{{skill}}</p>
+    <h3>Drive #{{drive.d_id}}</h3>
+    <h4 class="section-list borderless">Role: {{drive.role}}</h4>
+    <h4 class="section-list borderless">Package: {{drive.package}}</h4>
+    <h4 class="section-list borderless">Experience: {{drive.experience}}</h4>
+    <div class="section-list borderless">
+        <h4>Status: {{drive.status}}</h4>
+        <form method="POST">
+            {% if drive.status == 'active' %}
+            <button type="submit" class="btn nav-button crud-buttons" name="status" value="closed">Close</button>
+            {% else %}
+            <button type="submit" class="btn nav-button crud-buttons" name="status" value="active">Activate</button>
+            {% endif %}
+        </form>
+    </div>
+
+    <h4 class="section-list borderless">Required Skills:</h4>
+    {% for skill in drive.skills %}
+    <h5 class="section-list borderless">{{skill}}</h5>
     {% endfor %}
     <form method="POST">
         <label for="skill-adder" class="form-label">Add new skill:</label>
-        <div id="skill-adder-div">
-            <input type="text" id="skill-adder" name="skill" class="form-control">
+        <div class="simple-input-div">
+            <input type="text" name="skill" class="form-control simple-input">
             <button type="submit" class="btn nav-button">Add skill</button>
         </div>
     </form>

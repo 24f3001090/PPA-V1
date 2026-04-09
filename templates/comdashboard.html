@@ -5,4 +5,9 @@
     <a href="{{ url_for("drive", com_id = company.c_id) }}"><button class="btn btn-outline-primary nav-button panel-button" type="button">Create Drive</button></a>
 </div>
 
+<div class="page">
+    <a class="box-anchor" href="{{ url_for("com_drives", com_id = company.c_id) }}">View Drives</a>
+    <a class="box-anchor" href="{{ url_for("applications", com_id = company.c_id)}}">Applications</a>
+</div>
+
 {% endblock main%}
