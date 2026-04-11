@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block main %}
+{% for com in companies %}
+            <div class="section-list">
+                <h4>{{com.name}}</h4>
+                <div>
+                    <a class="btn nav-button crud-buttons" href="{{url_for('searched_com_drives', com_id = com.c_id, st_id = st_id)}}">View Drives</a>
+                </div>
+            </div>
+        {% endfor %}
+{% endblock main %}

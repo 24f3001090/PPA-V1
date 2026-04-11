@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block main %}
+<div>
+    <form class="mb-3" method="POST">
+        <label for="name" class="form-label">Name:</label>
+        <div class="simple-input-div">
+            <input type="text" name="name" class="form-control simple-input" value="{{student.name}}">
+            <button type="submit" class="btn nav-button crud-buttons">Change</button>
+        </div>
+    </form>
+
+    <form class="mb-3 evenly-spaced" method="POST">
+    <label class="form-label radio-column">Level:</label>
+
+        <div>
+            <input type="radio" class="form-check-input" id="foundation" name="level" value="foundation" {% if student.level == 'foundation' %} checked {% endif %}>
+            <label for="foundation">Foundation</label>
+        </div>
+
+        <div>
+            <input type="radio" class="form-check-input" id="diploma" name="level" value="diploma" {% if student.level == 'diploma' %} checked {% endif %}>
+            <label for="diploma">Diploma</label>
+        </div>
+
+        <div>
+            <input type="radio" class="form-check-input" id="degree" name="level" value="degree" {% if student.level == 'degree' %} checked {% endif %}>
+            <label for="degree">Degree</label>
+        </div>
+
+        <button type="submit" class="btn nav-button crud-buttons">Change</button>
+    </form>
+
+
+    <form class="mb-3" method="POST">
+        <label for="email" class="form-label">Email:</label>
+        <div class="simple-input-div">
+            <input type="email" id="email" name="email" class="form-control simple-input" value="{{student.email}}">
+            <button type="submit" class="btn nav-button crud-buttons">Change</button>
+        </div>
+    </form>
+    
+    <form class="mb-3" method="POST">
+        <label for="cgpa" class="form-label">CGPA:</label>
+        <div class="simple-input-div">
+            <input type="number" step="any" id="cgpa" name="cgpa" class="form-control simple-input" value="{{student.cgpa}}">
+            <button type="submit" class="btn nav-button crud-buttons">Change</button>
+        </div>
+    </form>
+
+    <form class="mb-3" method="POST">
+        <label for="password" class="form-label">Password:</label>
+        <div class="simple-input-div">
+            <input type="password" id="password" name="password" class="form-control simple-input" >
+            <button type="submit" class="btn nav-button crud-buttons">Change</button>
+        </div>
+    </form>
+
+    <form class="mb-3" method="POST" enctype="multipart/form-data">
+        <label for="resume" class="form-label">Resume:</label>
+        <div class="simple-input-div">
+            <input id="resume-edit" type="file" name="resume" class="form-control simple-input" id="resume">
+            <div class="evenly-spaced">
+                <button type="submit" class="btn nav-button crud-buttons">Update</button>
+                <a class="btn nav-button crud-buttons" href="{{url_for('static', filename = 'uploads/' + student.resume)}}"> View</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock main %}

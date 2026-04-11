@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block main %}
+<div>
+    <div class="dashboard-panel">
+        <h2 class="panel-heading">Results</h2>
+        <form class="search-div-dashboard" method="POST">
+            <input type="text" class="form-control search-input-dashboard" name="demand" placeholder="Search">
+            <button class="btn btn-outline-primary nav-button panel-button search-btn-dashboard"
+                type="submit">Search</button>
+            <form>
+    </div>
+
+    <div class="section">
+        <h3>Companies</h3>
+        <div class="section-content">
+            {% if results_com %}
+            {% for com in results_com %}
+            <div class="section-list">
+                <h4>{{com.name}}</h4>
+                <div>
+                    <a class="btn nav-button crud-buttons"
+                        href="{{url_for('searched_com_drives', com_id = com.c_id, st_id = student.s_id)}}">View
+                        Drives</a>
+                    </div>
+                </div>
+            {% endfor %}
+            {% else %}
+            <p class="error">No Results Found</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Job Positions</h3>
+        <div class="section-content">
+            {% if results_drives %}
+            {% for drive in results_drives %}
+            <div class="section-list">
+                <h4>{{drive.role}}</h4>
+                <div>
+                    <a class="btn nav-button crud-buttons"
+                        href="{{url_for('apply', st_id = student.s_id, drive_id = drive.d_id)}}">View</a>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="error">No Results Found</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Skills</h3>
+        <div class="section-content">
+            {% if results_skills %}
+            {% for skill in results_skills %}
+            <div class="section-list">
+                <h4>{{skill.name}} Drive #{{skill.drive.d_id}}</h4>
+                <div>
+                    <a class="btn nav-button crud-buttons"
+                        href="{{url_for('apply', st_id = student.s_id, drive_id = skill.drive.d_id)}}">View Drive</a>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p class="error">No Results Found</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock main %}

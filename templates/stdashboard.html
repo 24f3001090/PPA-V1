@@ -1,11 +1,22 @@
 {% extends "layout.html" %}
+{% block signin %}
+<div id="signin-button-div">
+    <a href="{{ url_for("profile", st_id = student.s_id)}}"><button class="nav-button btn btn-outline-primary">Profile</button></a>
+</div>
+{% endblock signin %}
 {% block main %}
 <div class="dashboard-panel">
-    <h2>Hello, {{student.name}}</h2>
+    <h2 class="panel-heading">Hello, {{student.name}}</h2>
+        <form class="search-div-dashboard" method="POST">
+            <input type="text" class="form-control search-input-dashboard" name="demand" placeholder="Search">
+            <button class="btn btn-outline-primary nav-button panel-button search-btn-dashboard"
+                type="submit">Search</button>
+        <form>
 </div>
 
 <div class="page">
     <a class="box-anchor" href=" {{ url_for("st_drives", st_id = student.s_id) }} ">Running Drives</a>
+    <a class="box-anchor" href=" {{ url_for("st_drives", st_id = student.s_id) }} ">Companies</a>
     <a class=" box-anchor" href="{{ url_for('st_applications', st_id = student.s_id)}}">My Applications</a>
 </div>
 {% endblock main%}

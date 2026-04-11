@@ -15,6 +15,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 db.init_app(app)
 
 with app.app_context():
+    companies = com.query.filter_by(blacklisted = True)
+    for company in companies:
+        for drive in company.drives:
+            drive.status = 'closed'
     db.create_all()
 
 
@@ -30,6 +34,8 @@ place_data = [{"sno":1,"name":"Bipin Tiwari", "company":"Google", "package":"45L
               {"sno":8,"name":"Ilesha Shrivastava", "company":"Microsoft", "package":"20LPA"},
               {"sno":9,"name":"Jeeveash Kumar", "company":"Infosys", "package":"18LPA"},
               {"sno":10,"name":"Aayushmaan Patel", "company":"Google", "package":"18LPA"}]
+
+
 
 @app.route("/")
 def main_page():
@@ -132,8 +138,8 @@ def admin():
         if company:
             if approval == 'yes':
                 company.status = 'approved'
-        else:
-            company.status = 'rejected'
+            else:
+                company.status = 'rejected'
         db.session.commit()
 
     pending_reg = com.query.filter_by(status = 'pending')
@@ -192,19 +198,30 @@ def edit(id):
         
     return render_template("driveupdate.html", drive = drive)
 
-@app.route("/student/<int:id>")
+@app.route("/student/<int:id>", methods = ['GET', 'POST'])
 def student(id):
     if session.get('user') != 'student':
         return redirect("/login")
     if session.get('student_id') != id:
         return "Unauthorized access"
     student = st.query.get(id)
+    if request.method == 'POST':
+        demand = request.form.get('demand')
+        results_com = com.query.filter(com.name.ilike(f"%{demand}%")).filter_by(status = 'approved', blacklisted = False).all()
+        results_drives = dr.query.filter(dr.role.ilike(f"%{demand}%")).filter_by(status = 'active').all()
+        results_skills = sk.query.join(sk.drive).filter(sk.name.ilike(f"%{demand}%"), dr.status == 'active').all()
+        return render_template('search.html', results_com = results_com, results_drives = results_drives, results_skills = results_skills, student = student)
+
     return render_template("stdashboard.html", student = student)
 
 @app.route("/student/all-drives/<int:st_id>")
 def st_drives(st_id):
     drives = dr.query.filter_by(status = 'active')
     return render_template("stdrives.html", drives = drives, st_id = st_id)
+
+@app.route("/student/all-drives/<int:st_id>")
+def st_com(st_id):
+    return render_template("stcompanies.html", st_id = st_id)
 
 @app.route("/student/apply/<int:st_id>/<int:drive_id>", methods=['GET', 'POST'])
 def apply(st_id, drive_id):
@@ -266,6 +283,48 @@ def st_applications(st_id):
 def track(app_id):
     j_app = apl.query.get(app_id)
     return render_template("track.html", j_app = j_app)
+
+@app.route("/student/profile/<int:st_id>", methods = ['GET', 'POST'])
+def profile(st_id):
+    student = st.query.get(st_id)
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        level = request.form.get('level')
+        cgpa = request.form.get('cgpa')
+        password = request.form.get('password')
+        resume = request.files.get('resume')
+
+        if name:
+            student.name = name
+
+        if email:
+            student.email = email
+
+        if level:
+            student.level = level
+
+        if cgpa:
+            student.cgpa = cgpa
+
+        if password:
+            student.password = password
+
+        if resume and resume.filename != '':
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], resume.filename)
+            resume.save(filepath)
+            student.resume = resume.filename
+            
+        db.session.commit()
+        return redirect(url_for('profile', st_id = st_id))
+
+    return render_template("profilemgmt.html", student = student)
+
+
+@app.route("/student/search/company/<int:com_id>/<int:st_id>")
+def searched_com_drives(com_id, st_id):
+    company = com.query.get(com_id)
+    return render_template("stsearchcomdrives.html", company = company, st_id = st_id)
 
 
 if __name__ == "__main__":

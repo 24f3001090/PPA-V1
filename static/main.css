@@ -5,12 +5,18 @@
 /* Header */
 #navbar
 {
-    background-color: orange;
-}
-#logo-img
-{
     height: 50px;
-    width: 150px;
+    background-color:aqua;
+}
+.heading
+{
+    color: blue;
+}
+#logo
+{
+    margin-left: 5px;
+    padding-top: 5px;
+    font-family: 'poppins', serif;
 }
 .nav-button
 {
@@ -80,7 +86,7 @@
 }
 #place-data-table
 { 
-    border: 2px solid orange;
+    border: 2px solid blue;
     height: 60%;
     width: 35%;
     position: absolute;
@@ -101,13 +107,13 @@
 #reg-form
 {
     padding: 5%;
-    border: 6px double orange;
+    border: 6px double aqua;
     border-radius: 5%;
 }
 #login-form
 {
     padding: 5%;
-    border: 6px solid orange;
+    border: 6px solid aqua;
     border-radius: 2%;
 }
 .login-btn
@@ -127,11 +133,13 @@
 .submit-button
 {
     margin-left: 40%;
+    border: 2px solid aqua;
+    color: aqua;
 }
 .submit-button:hover
 {
-    background-color: orange;
-    border-color: orange;
+    background-color: aqua;
+    border-color: aqua;
     color:white;
 }
 .error
@@ -143,23 +151,28 @@
 .dashboard-panel
 {
     height: 48px;
-    background-color: rgb(236, 200, 200);
+    background-color: grey;
     display: flex;
     justify-content: space-between;
+    color:white;
 }
-#search-div-admin
+.panel-heading
+{
+    font-style: italic;
+}
+.search-div-dashboard
 {
     width: 30%;
     display:flex;
 }
-#search-input-admin
+.search-input-dashboard
 {
     border-color: darkblue;
     width: 80%;
     border-top-right-radius: 0%;
     border-bottom-right-radius: 0%;
 }
-#search-btn-admin
+.search-btn-dashboard
 {
     border-left: none;
     border-top-left-radius: 0%;
@@ -170,7 +183,7 @@
 {
     height: 200px;
     overflow-y: scroll;
-    background-color: orange;
+    background-color: aqua;
 }
 .section-content
 {
@@ -189,7 +202,7 @@
 #drive-form
 {
     padding: 5%;
-    border: 6px double orange;
+    border: 6px double aqua;
     border-radius: 2%;
 }
 .section-list
@@ -220,7 +233,7 @@
 .simple-input
 {
     width:85%;
-    border-color: orange;
+    border-color: aqua;
 }
 .page
 {
@@ -315,4 +328,13 @@
 {
     color:blue;
     font-size: 0.8rem;
+}
+.evenly-spaced
+{
+    display: flex;
+    justify-content: space-between;
+}
+#resume-edit
+{
+    width: 70%;
 }

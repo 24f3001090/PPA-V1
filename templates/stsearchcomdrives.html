@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block main %}
+<div>
+    {% if company.drives %}
+    {% for drive in company.drives %}
+    <div class="section-list">
+        <h4>Drive #{{drive.d_id}} {{drive.role}}</h4>
+        <div class="multiple-button-div">
+            <a class="btn nav-button crud-buttons" href=" {{ url_for("apply", st_id = st_id, drive_id = drive.d_id) }} ">View</a>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock main %}
