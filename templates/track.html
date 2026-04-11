@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block main %}
-<h2 style="text-align:center;">Application Status Tracker</h2>
+<h2 class="centered-heading">Application Status Tracker</h2>
 <div id="tracker-page">
     <div class="progress-container">
 
@@ -34,6 +34,14 @@
             </div>
         </div>
 
+        {% if j_app.status == 'college rejected' %}
+        <div class="step rejected">
+            <div class="circle">5</div>
+            <div class="label">
+                College Rejected
+            </div>
+        </div>
+        {% endif %}
 
     </div>
 </div>

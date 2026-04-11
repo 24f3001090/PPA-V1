@@ -29,13 +29,17 @@
     background-color: darkblue;
     color: white;
 }
-#signin-button-div
+.signin-button-div
 {
     position: absolute;
     right: 40px;
     top: 6px;
 }
 /* Main */
+#main-page
+{
+    height: 120vh;
+}
 #boy
 {
     height: 60%;
@@ -99,7 +103,7 @@
 }
 #form-outer-div
 {
-    height: 100vh;
+    height: 120vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -132,7 +136,7 @@
 }
 .submit-button
 {
-    margin-left: 40%;
+    margin-left: 42%;
     border: 2px solid aqua;
     color: aqua;
 }
@@ -160,6 +164,14 @@
 {
     font-style: italic;
 }
+#user-select
+{
+    width:22%;
+    border-color: blue;
+    border-right: 0px;
+    border-top-left-radius: 10%;
+    border-bottom-left-radius: 10%;
+}
 .search-div-dashboard
 {
     width: 30%;
@@ -171,6 +183,10 @@
     width: 80%;
     border-top-right-radius: 0%;
     border-bottom-right-radius: 0%;
+}
+#search-input-admin
+{
+    border-radius: 0%;
 }
 .search-btn-dashboard
 {
@@ -306,11 +322,11 @@
     margin: auto;
     color: white;
 }
-.active .circle 
+.active .circle
 {
     background-color: #28a745;
 }
-.rejected .circle 
+.rejected .circle
 {
     background-color: #dc3545;
 }
@@ -337,4 +353,32 @@
 #resume-edit
 {
     width: 70%;
+}
+.blue
+{
+    color: blue;
+}
+.zero
+{
+    width:0px;
+}
+.flexed
+{
+    display: flex;
+}
+.side-message
+{
+    margin-right: 5px;
+}
+.footer-div
+{
+    height:10vh;
+    background-color: aqua;
+    color: white;
+    display:flex;
+    align-items: center;
+}
+.centered-heading
+{
+    text-align:center;
 }

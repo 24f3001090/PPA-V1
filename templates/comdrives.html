@@ -4,7 +4,7 @@
     {% for drive in drives %}
         <div class="section-list"><h4>Drive #{{drive.d_id}} {{drive.role}}</h4>
                 <div class="multiple-button-div">
-                    <a class="btn nav-button crud-buttons" href=" {{ url_for("edit", id = drive.d_id) }} ">View</a>
+                    <a class="btn nav-button crud-buttons" href=" {{ url_for("edit", drive_id = drive.d_id, com_id = drive.company.c_id) }} ">View</a>
                 </div>
             </div>
     {% endfor %}

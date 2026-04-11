@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block main %}
 <div>
-    {% if company.drives %}
-    {% for drive in company.drives %}
+    {% if drives %}
+    {% for drive in drives %}
     <div class="section-list">
         <h4>Drive #{{drive.d_id}} {{drive.role}}</h4>
         <div class="multiple-button-div">

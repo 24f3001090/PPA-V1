@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
+{% block signin %}
+<div class="signin-button-div">
+    <a class="nav-button btn btn-outline-primary" href="{{ url_for("logout")}}">Logout</a>
+</div>
+{% endblock signin %}
 {% block main %}
 <div class="dashboard-panel">
-    <h2>Welcome, {{company.name}}</h2>
+    <h2 class="panel-heading">Welcome, {{company.name}}</h2>
     <a href="{{ url_for("drive", com_id = company.c_id) }}"><button class="btn btn-outline-primary nav-button panel-button" type="button">Create Drive</button></a>
 </div>
 

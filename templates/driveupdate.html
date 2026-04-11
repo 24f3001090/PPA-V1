@@ -10,8 +10,10 @@
         <form method="POST">
             {% if drive.status == 'active' %}
             <button type="submit" class="btn nav-button crud-buttons" name="status" value="closed">Close</button>
-            {% else %}
+            {% elif drive.status == 'closed' %}
             <button type="submit" class="btn nav-button crud-buttons" name="status" value="active">Activate</button>
+            {% else %}
+            <span class="error side-message">Deactivated by college</span>
             {% endif %}
         </form>
     </div>

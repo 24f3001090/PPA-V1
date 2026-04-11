@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block signin %}
-<div id="signin-button-div">
-    <a href=/register><button class="nav-button btn btn-outline-primary">Register</button></a>
+<div class="signin-button-div">
+    <a class="nav-button btn btn-outline-primary" href=/register>Register</a>
 </div>
 {% endblock signin %}
 
@@ -17,7 +17,6 @@
                 <label for="pass" class="form-label">Password</label>
                 <input type="password" name="password" class="form-control" id="pass">
             </div>
-            <p class="error">{{error}}</p>
             <button type="submit" class="btn nav-button submit-button login-btn">Login</button>
         </form>
     </div>

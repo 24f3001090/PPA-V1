@@ -1,20 +1,23 @@
 {% extends "layout.html" %}
+{% block signin %}
+<div class="signin-button-div">
+    <a class="nav-button btn btn-outline-primary" href="{{ url_for("logout")}}">Logout</a>
+</div>
+{% endblock signin %}
 {% block main %}
 <div class="dashboard-panel">
-    <h2>Good to see you! Admin</h2>
-    <div class="search-div-dashboard">
-        <input type="text" class="form-control search-input-dashboard" placeholder="Search">
-        <button class="btn btn-outline-primary nav-button panel-button search-btn-dashboard"
-            type="button">Search</button>
-    </div>
-</div>
-<!-- Sections -->
-<div class="section">
-    <h3>Blacklisted</h3>
-    <div class="section-content"></div>
+    <h2 class="panel-heading">Good to see you! Admin</h2>
+        <form class="search-div-dashboard" method='POST'>
+            <select name="role" class="panel-button" id="user-select">
+                <option class="form-control" value="student">Student</option>
+                <option class="form-control" value="company">Company</option>
+            </select>
+            <input id="search-input-admin" type="text" name="demand" class="form-control search-input-dashboard" placeholder="Search">
+            <button class="btn btn-outline-primary nav-button panel-button search-btn-dashboard" type="submit">Search</button>
+        </form>
 </div>
 
-<div class="section">
+ <div class="section">
     <h3>Pending registrations</h3>
     <div class="section-content">
         {% for reg in pending_reg %}
@@ -32,12 +35,49 @@
 </div>
 
 <div class="section">
-    <h3>Active Companies</h3>
-    <div class="section-content"></div>
+    <h3>Blacklisted</h3>
+    <div class="section-content">
+        {% for com in black_companies %}
+            <div class="section-list"><h4>Company: {{com.name}}</h4>
+                <a class="btn nav-button crud-buttons" href="{{url_for('userview_com', com_id = com.c_id)}}">View</a>
+            </div>
+        {% endfor %}
+        {% for stu in black_students %}
+            <div class="section-list"><h4>Student: {{stu.name}}</h4>
+                <a class="btn nav-button crud-buttons" href="{{url_for('userview_st', st_id = stu.s_id)}}">View</a>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 
 <div class="section">
-    <h3>Active Students</h3>
-    <div class="section-content"></div>
+    <h3>Active</h3>
+    <div class="section-content">
+        {% for com in white_companies %}
+            <div class="section-list"><h4>Company: {{com.name}}</h4>
+                <a class="btn nav-button crud-buttons" href="{{url_for('userview_com', com_id = com.c_id)}}">View</a>
+            </div>
+        {% endfor %}
+        {% for stu in white_students %}
+            <div class="section-list"><h4>Student: {{stu.name}}</h4>
+                <a class="btn nav-button crud-buttons" href="{{url_for('userview_st', st_id = stu.s_id)}}">View</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="section">
+    <h3>Job Applications</h3>
+    <div class="section-content">
+        {% for app in j_applications %}
+        <div class="section-list"><h4>Application #{{app.application_id}} Applicant: {{app.applicant.name}}</h4>
+            <form method="POST">
+                <a class="btn nav-button crud-buttons" href="{{url_for('track', app_id = app.a_id, st_id = app.applicant.s_id)}}">View</a>
+                <input type="hidden" name="app_id" value="{{app.a_id}}">
+                <button class="btn nav-button crud-buttons" type="submit" name="status" value="reject">Reject</button>
+            </form>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock main%}

@@ -5,6 +5,7 @@
     <h4 class="section-list borderless">Name: {{j_app.applicant.name}}</h4>
     <h4 class="section-list borderless">Level: {{j_app.applicant.level}}</h4>
     <h4 class="section-list borderless">Email: {{j_app.applicant.email}}</h4>
+    <h4 class="section-list borderless">Drive: #{{j_app.drive.d_id}}</h4>
     <div class="section-list borderless">
         <h4>Resume:</h4>
         <a class="btn nav-button crud-buttons" href="{{url_for('static', filename = 'uploads/' + j_app.applicant.resume)}}"> View</a>
@@ -27,6 +28,7 @@
     {% elif j_app.status == 'interview scheduled' %}
     <form method="POST" class="centered">
             <button type="submit" class="btn nav-button crud-buttons" name="select" value="yes">Select Candidate</button>
+            <button type="submit" class="btn nav-button crud-buttons" name="select" value="no">Reject Candidate</button>
     </form>
     {% elif j_app.status == 'selected' %}
     <div class="green"><h3>Selected</h3></div>

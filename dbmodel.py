@@ -15,8 +15,9 @@ class Skill(db.Model):
 class Application(db.Model):
     __tablename__ = 'application'
     a_id = db.Column(db.Integer(), primary_key = True, unique = True, autoincrement = True)
+    @property
     def application_id(self):
-        return f"D{self.a_id}"
+        return f"A{self.a_id}"
     status = db.Column(db.String(100), nullable = False)
     app_date = db.Column(db.DateTime, default = lambda: datetime.now(timezone.utc))
     int_date = db.Column(db.Date)
@@ -29,6 +30,7 @@ class Application(db.Model):
 class Drive(db.Model):
     __tablename__ = 'drive'
     d_id = db.Column(db.Integer(), primary_key = True, unique = True, autoincrement = True)
+    @property
     def drive_id(self):
         return f"D{self.d_id}"
     role = db.Column(db.String(100), nullable = False)
@@ -46,6 +48,7 @@ class Drive(db.Model):
 class Student(db.Model):
     __tablename__ = 'student'
     s_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    @property
     def student_id(self):
         return f"S{self.s_id}"
     email = db.Column(db.String(200), unique = True, nullable = False)

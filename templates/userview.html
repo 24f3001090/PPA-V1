@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block main %}
+<div>
+    <h4 class="section-list borderless">Name: {{user.name}}</h4>
+    <h4 class="section-list borderless">Email: {{user.email}}</h4>
+
+    {% if user in students %}
+    <h3 class="section-list borderless">ID # {{user.student_id}}</h3>
+    <h4 class="section-list borderless">Role: Student</h4>
+    <h4 class="section-list borderless">Level: {{user.level}}</h4>
+    <h4 class="section-list borderless">CGPA: {{user.cgpa}}</h4>
+    <div class="section-list borderless">
+        <h4>Resume:</h4>
+        <a class="btn nav-button crud-buttons" href="{{url_for('static', filename = 'uploads/' + user.resume)}}"> View</a>
+    </div>
+
+    {% else %}
+    <h3 class="section-list borderless">ID # {{user.company_id}}</h3>
+    <h4 class="section-list borderless">Role: Company</h4>
+    <h4 class="section-list borderless">Running Drives:</h4>
+    {% for drive in user.drives %}
+    <div class="section-list">
+        <h5>Drive #{{drive.d_id}} {{drive.role}}</h5>
+            <form class="flexed" method="POST">
+                <a class="btn nav-button crud-buttons" href="{{ url_for('edit', drive_id = drive.d_id, com_id = drive.company.c_id)}}">View</a>
+                <input type="hidden" name="drive_id" value="{{drive.d_id}}">
+                {% if drive.status in ['active', 'closed'] %}
+                <button type="submit" class="btn nav-button crud-buttons" name="status" value="deactivate">Deactivate</button>
+                {% else %}
+                <button type="submit" class="btn nav-button crud-buttons" name="status" value="activate">Activate</button>
+                {% endif %}
+            </form>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <form method="POST">
+        <br>
+        {% if user.blacklisted %}
+        <button type="submit" class="btn nav-button submit-button" name="blacklist" value="no">Whitelist</button>
+        {% else %}
+        <button type="submit" class="btn nav-button submit-button" name="blacklist" value="yes">Blacklist</button>
+        {% endif %}
+    </form>
+</div>
+{% endblock main%}

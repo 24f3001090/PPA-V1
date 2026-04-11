@@ -1,13 +1,17 @@
 {% extends "layout.html" %}
 {% block main %}
 <div>
+    {% if j_apps %}
     {% for j_app in j_apps %}
     <div class="section-list">
         <h4>Name: {{j_app.applicant.name}} {{j_app.applicant.level}} </h4>
         <div class="multiple-button-div">
-            <a class="btn nav-button crud-buttons" href=" {{ url_for("view_st_application", app_id = j_app.a_id) }} ">View</a>
+            <a class="btn nav-button crud-buttons" href=" {{ url_for("view_st_application", app_id = j_app.a_id, com_id = j_app.drive.company.c_id) }} ">View</a>
         </div>
     </div>
     {% endfor %}
+    {% else %}
+    <p class="error">No Results Found</p>
+    {% endif %}
 </div>
 {% endblock main %}
