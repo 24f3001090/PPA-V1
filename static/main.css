@@ -198,7 +198,6 @@
 .section
 {
     height: 200px;
-    overflow-y: scroll;
     background-color: aqua;
 }
 .section-content
@@ -207,6 +206,7 @@
     height: 75%;
     margin-left: 2px;
     margin-right: 2px;
+    overflow-y: scroll;
 }
 .panel-button
 {
@@ -381,4 +381,9 @@
 .centered-heading
 {
     text-align:center;
+}
+.filler
+{
+    height:5vh;
+    background-color: aqua;
 }

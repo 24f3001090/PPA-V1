@@ -57,8 +57,8 @@ class Student(db.Model):
     level = db.Column(db.String(10), nullable = False)
     cgpa = db.Column(db.String(10), nullable = False)
     blacklisted = db.Column(db.Boolean, default=False)
-    applications = db.relationship('Application', backref = 'applicant', lazy = True)
     resume = db.Column(db.String(200), nullable = False)
+    applications = db.relationship('Application', backref = 'applicant', lazy = True)
 
     def __repr__(self):
         return f"{self.name}"
